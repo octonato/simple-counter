@@ -1,37 +1,80 @@
-# Template of empty project
+# Event Sourced Counter
 
-To understand the Akka concepts that are the basis for this example, see [Development Process](https://doc.akka.io/concepts/development-process.html) in the documentation.
+An Akka service implementing a named, event-sourced counter with increment/decrement operations, a zero floor constraint, and overflow-to-zero behavior at Integer.MAX_VALUE.
 
-This project contains the skeleton to create an Akka service. To understand more about these components, see [Developing services](https://doc.akka.io/sdk/index.html).
+## Features
 
-You are supposed to change `empty-service` and the package name `com.example` to your own names.
+- Counters start at zero with an empty name
+- Increment and decrement by 1
+- Counter value never goes below zero (decrement at zero is rejected)
+- Counter overflows to zero when incremented past Integer.MAX_VALUE
+- Counter name can be changed at any time without affecting the value
 
-Use Maven to build your project:
+## Prerequisites
 
-```shell
-mvn compile
-```
+- Java 21
+- Maven 3.9+
 
-To start your service locally, run:
+## Build & Run
 
 ```shell
 mvn compile exec:java
 ```
 
-You can use the [Akka Console](https://console.akka.io) to create a project and see the status of your service.
+## Try It Out
+
+Create and increment a counter:
+```shell
+curl -X POST http://localhost:9000/counter/my-counter/increment
+```
+
+Increment again:
+```shell
+curl -X POST http://localhost:9000/counter/my-counter/increment
+```
+
+Get current value:
+```shell
+curl http://localhost:9000/counter/my-counter
+```
+
+Decrement:
+```shell
+curl -X POST http://localhost:9000/counter/my-counter/decrement
+```
+
+Rename the counter:
+```shell
+curl -X PUT http://localhost:9000/counter/my-counter/name \
+  -H "Content-Type: application/json" \
+  -d '{"name": "My First Counter"}'
+```
+
+Try decrementing at zero (should return error):
+```shell
+curl -X POST http://localhost:9000/counter/zero-test/decrement
+```
+
+## Testing
+
+Run unit tests:
+```shell
+mvn test
+```
+
+Run all tests (unit + integration):
+```shell
+mvn verify
+```
+
+## Deployment
 
 Build container image:
-
 ```shell
 mvn clean install -DskipTests
 ```
 
-Install the `akka` CLI as documented in [Install Akka CLI](https://doc.akka.io/reference/cli/index.html).
-
-Deploy the service using the image tag from above `mvn install`:
-
+Deploy using the Akka CLI:
 ```shell
-akka service deploy empty-service empty-service:tag-name --push
+akka service deploy simple-counter simple-counter:tag-name --push
 ```
-
-Refer to [Deploy and manage services](https://doc.akka.io/operations/services/deploy-service.html) for more information.
