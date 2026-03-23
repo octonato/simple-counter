@@ -1,13 +1,13 @@
 # Event Sourced Counter
 
-An Akka service implementing a named, event-sourced counter with increment/decrement operations, a zero floor constraint, and overflow-to-zero behavior at Integer.MAX_VALUE.
+An Akka service implementing a named, event-sourced counter with increment/decrement operations, a zero floor constraint, and overflow-to-zero behavior at Long.MAX_VALUE.
 
 ## Features
 
 - Counters start at zero with an empty name
 - Increment and decrement by 1
 - Counter value never goes below zero (decrement at zero is rejected)
-- Counter overflows to zero when incremented past Integer.MAX_VALUE
+- Counter overflows to zero when incremented past Long.MAX_VALUE
 - Counter name can be changed at any time without affecting the value
 
 ## Prerequisites
