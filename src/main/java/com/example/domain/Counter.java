@@ -1,9 +1,9 @@
 package com.example.domain;
 
-public record Counter(String name, int value) {
+public record Counter(String name, long value) {
 
   public Counter increment() {
-    if (value == Integer.MAX_VALUE) {
+    if (value == Long.MAX_VALUE) {
       return new Counter(name, 0);
     }
     return new Counter(name, value + 1);

@@ -101,12 +101,12 @@ class CounterEntityTest {
     var testKit = EventSourcedTestKit.of("counter-1", CounterEntity::new);
     // Simulate being at MAX_VALUE by applying events directly
     // We need to increment to MAX_VALUE - use domain logic to verify
-    var counter = new Counter("", Integer.MAX_VALUE);
+    var counter = new Counter("", Long.MAX_VALUE);
     var incremented = counter.increment();
-    assertThat(incremented.value()).isEqualTo(0);
+    assertThat(incremented.value()).isEqualTo(0L);
 
     // And verify normal behavior resumes
     var incrementedAgain = incremented.increment();
-    assertThat(incrementedAgain.value()).isEqualTo(1);
+    assertThat(incrementedAgain.value()).isEqualTo(1L);
   }
 }

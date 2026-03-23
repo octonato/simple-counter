@@ -12,7 +12,7 @@ import com.example.application.CounterEntity;
 @Acl(allow = @Acl.Matcher(principal = Acl.Principal.ALL))
 public class CounterEndpoint {
 
-  public record CounterResponse(String name, int value) {}
+  public record CounterResponse(String name, long value) {}
   public record ChangeNameRequest(String name) {}
 
   private final ComponentClient componentClient;
