@@ -9,6 +9,7 @@ An Akka service implementing a named, event-sourced counter with increment/decre
 - Counter value never goes below zero (decrement at zero is rejected)
 - Counter overflows to zero when incremented past Long.MAX_VALUE
 - Counter name can be changed at any time without affecting the value
+- Query all counters whose current value is greater than or equal to 10
 
 ## Prerequisites
 
@@ -53,6 +54,21 @@ curl -X PUT http://localhost:9000/counter/my-counter/name \
 Try decrementing at zero (should return error):
 ```shell
 curl -X POST http://localhost:9000/counter/zero-test/decrement
+```
+
+List all counters whose value is at least 10:
+```shell
+curl http://localhost:9000/counters/at-least-ten
+```
+
+Example response:
+```json
+{
+  "counters": [
+    { "counterId": "my-counter", "name": "My First Counter", "value": 12 },
+    { "counterId": "another",    "name": "",                 "value": 10 }
+  ]
+}
 ```
 
 ## Testing
